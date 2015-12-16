@@ -1,12 +1,412 @@
-*.class
+//Venice Cheng & Jennifer Dong
+//Go Fish
+//
+//ICS 203
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
+import java.io.*;
+import hsa.Console;
+import javax.imageio.*; // allows image loading
+import java.awt.*;
 
-# Package Files #
-*.jar
-*.war
-*.ear
+public class GoFishVeniceJenD
+{
+    static Console c;
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
+    static Image cardBack;
+
+    //Loads Card gif Files Into Array
+    public static Image[] loadCardImages ()
+    {
+        Image pictureDeck[] = new Image [52]; // create array of 52 card images
+
+        for (int x = 0 ; x < 52 ; x++)
+            pictureDeck [x] = loadImage ("cards\\" + (x + 1) + ".gif");
+
+        cardBack = loadImage ("cards\\back.jpg");
+
+        return pictureDeck;
+    }
+
+
+    //Loads Image From File
+    public static Image loadImage (String name)
+    {
+        Image img = null;
+
+        try
+        {
+            img = ImageIO.read (new File (name)); // load file into Image object
+        }
+
+        catch (IOException e)
+        {
+            System.out.println ("File not found");
+        }
+
+        return img;
+    }
+
+
+    public static void show3 (int deck[], Image imageDeck[])  // display the deck in rows of 13
+    {
+        for (int player = 1 ; player <= 4 ; player++)
+        {
+            if (player == 1)
+            {
+                for (int x = 0 ; x < 5 ; x++)
+                    c.drawImage (imageDeck [deck [x]], 40 * x + 220, 400, null); // % and / create four rows of cards for display
+            }
+
+            else if (player == 2)
+            {
+                for (int x = 0 ; x < 5 ; x++)
+                    c.drawImage (cardBack, 20, 35 * (x / 1) + 75, null); // % and / create four rows of cards for display
+            }
+
+            else
+            {
+                for (int x = 0 ; x < 5 ; x++)
+                    c.drawImage (cardBack, 555, 35 * (x / 1) + 75, null); // % and / create four rows of cards for display
+            }
+        }
+    }
+
+
+    public static void show4 (int deck[], Image imageDeck[])  // display the deck in rows of 13
+    {
+        for (int player = 1 ; player <= 4 ; player++)
+        {
+            if (player == 1)
+            {
+                for (int x = 0 ; x < 5 ; x++)
+                    c.drawImage (imageDeck [deck [x]], 35 * x + 220, 400, null);
+            }
+
+            else if (player == 2)
+            {
+                for (int x = 0 ; x < 5 ; x++)
+                    c.drawImage (cardBack, 20, 40 * (x / 1) + 150, null);
+            }
+
+            else if (player == 3)
+            {
+                for (int x = 0 ; x < 5 ; x++)
+                    c.drawImage (cardBack, 40 * x + 210, 10, null);
+            }
+
+            else
+            {
+                for (int x = 0 ; x < 5 ; x++)
+                    c.drawImage (cardBack, 555, 40 * (x / 1) + 150, null);
+            }
+        }
+    }
+
+
+    public static void main (String[] args) throws IOException
+    {
+        c = new Console ();
+        String names[] = new String [0];
+        char choice;
+
+        do
+        {
+            c.clear ();
+            c.println ("Go Fish - Choose Difficulty");
+            c.println ("---------------------------");
+            c.println ("1. One Opponent");
+            c.println ("2. Two Opponents");
+            c.println ("3. Three Opponents");
+            c.println ("0. Exit");
+
+            choice = c.getChar ();
+
+            if (choice == '1')
+            {
+                gamelevel1 ();
+            }
+
+            else if (choice == '2')
+            {
+                difficulty (2);
+            }
+            else if (choice == '3')
+            {
+                difficulty (3);
+            }
+        }
+        while (choice != '0');
+        c.close ();
+
+    } // main method
+
+
+    public static void difficulty (int opponent)
+    {
+        c.clear ();
+        c.println ("What Level?");
+        c.println ("--------------");
+        c.println ("1. Regular");
+        c.println ("2. Intelligent");
+        c.print ("0. Quit");
+        char choice;
+        do
+        {
+            choice = c.getChar ();
+            if (choice == '1')
+            {
+                if (opponent == 2)
+                {
+                    c.clear ();
+                    c.clear ();
+
+                    // Creation of image deck and integer deck
+                    c.drawString ("Please wait while cards load...", 200, 200);
+                    Image imageDeck[] = loadCardImages ();
+                    c.clear ();
+
+                    //Display deck
+                    int deck[] = initDeck ();
+
+                    // Display Menu
+                    c.clear ();
+                    show3 (deck, imageDeck);
+                }
+                else
+                {
+                    c.clear ();
+                    // Creation of image deck and integer deck
+                    c.drawString ("Please wait while cards load...", 200, 200);
+                    Image imageDeck[] = loadCardImages ();
+                    c.clear ();
+
+                    //Display deck
+                    int deck[] = initDeck ();
+
+                    // Display Menu
+                    c.clear ();
+                    show4 (deck, imageDeck);
+                }
+
+            }
+            else if (choice == '2')
+            {
+                if (opponent == 2)
+                {
+                    c.clear ();
+
+                    // Creation of image deck and integer deck
+                    c.drawString ("Please wait while cards load...", 200, 200);
+                    Image imageDeck[] = loadCardImages ();
+                    c.clear ();
+
+                    //Display deck
+                    int deck[] = initDeck ();
+
+                    // Display Menu
+                    c.clear ();
+                    show3 (deck, imageDeck);
+                }
+                else
+                {
+                    c.clear ();
+
+                    // Creation of image deck and integer deck
+                    c.drawString ("Please wait while cards load...", 200, 200);
+                    Image imageDeck[] = loadCardImages ();
+                    c.clear ();
+
+                    //Display deck
+                    int deck[] = initDeck ();
+
+                    // Display Menu
+                    c.clear ();
+                    show4 (deck, imageDeck);
+                }
+            }
+        }
+
+        while (choice != 0);
+        c.close ();
+
+    }
+
+
+    public static void gamelevel1 ()
+    {
+        int deck[] = initDeck ();
+        int compcards[] = deal (deck, 5);
+        int playercards[] = deal (deck, 5);
+        int comppairs[] = removePairs (compcards);
+        int playerpairs[] = removePairs (playercards);
+        int comphand[] = removedhand (compcards, comppairs);
+        int playerhand[] = removedhand (playercards, playerpairs);
+
+    }
+
+
+    public static int[] initDeck ()
+    {
+        int deck[] = new int [52];
+
+        for (int x = 0 ; x < deck.length ; x++)
+            deck [x] = x;
+
+        return deck;
+    }
+
+
+    public static int[] shuffle (int deck[])
+    {
+        int y = 0, temp;
+        for (int x = 0 ; x <= 100 ; x++)
+        {
+            int posa = (int) (Math.random () * deck.length);
+            int posb = (int) (Math.random () * deck.length);
+
+            temp = deck [posa];
+            deck [posa] = deck [posb];
+            deck [posb] = temp;
+        }
+        return deck;
+    }
+
+
+    public static int[] deal (int deck[], int cardamount)
+    {
+        int todeal[] = new int [cardamount - 1];
+
+        shuffle (deck);
+
+        for (int x = 0 ; x <= cardamount - 1 ; x++)
+        {
+            todeal [x] = deck [x];
+        }
+
+        return todeal;
+    }
+
+
+    public static int[] remove (int deck[], int dealt[])
+    {
+        int newdeck[] = new int [deck.length - dealt.length];
+        int y = 1;
+        int temp1[] = new int [deck.length];
+        temp1 = deck;
+
+        for (int x = 0 ; x <= dealt.length ; x++)
+        {
+            int temp2[] = new int [deck.length - y];
+            int card = dealt [x];
+            int pos = find (deck, card);
+
+            temp2 = remove (temp1, pos);
+            temp1 = temp2;
+
+            y++;
+
+        }
+
+        newdeck = temp1;
+        return newdeck;
+    }
+
+
+    public static int[] remove (int deck[], int pos)
+    {
+        int temp[] = new int [deck.length - 1];
+
+        for (int x = 0 ; x < deck.length ; x++)
+        {
+            if (x < pos - 1)
+                temp [x] = deck [x];
+            if (x > pos - 1)
+                temp [x - 1] = deck [x];
+        }
+
+        return temp;
+    }
+
+
+    public static int find (int deck[], int card)
+    {
+        for (int x = 0 ; x <= deck.length ; x++)
+        {
+            if (deck [x] == card)
+                return x;
+        }
+
+        return -1;
+    }
+
+
+    public static int[] removePairs (int dealt[])
+    {
+        int pairs[] = new int [26];
+        int pair, pair2, card1 = 0, card2 = 0;
+        int y = 0, z = 0;
+
+        for (int x = 1 ; x <= dealt.length ; x++)
+        {
+            dealt [y] = card1;
+            pair = card1 % 13;
+
+            dealt [x] = card2;
+            pair2 = card2 % 13;
+
+            if (pair == pair2)
+            {
+                pairs [z] = card1;
+                z++;
+                pairs [z] = card2;
+                z++;
+            }
+
+            y++;
+        }
+
+        pairs = resize (pairs, z);
+
+        return pairs;
+    }
+
+
+    public static int[] removedhand (int dealt[], int pairs[])
+    {
+        int actualhand[] = new int [dealt.length - pairs.length];
+        int y = 1;
+        int temp1[] = new int [dealt.length];
+        temp1 = dealt;
+
+        for (int x = 0 ; x <= dealt.length ; x++)
+        {
+            int temp2[] = new int [dealt.length - y];
+            int card = dealt [x];
+            int pos = find (pairs, card);
+
+            temp2 = remove (temp1, pos);
+            temp1 = temp2;
+
+            y++;
+
+        }
+
+        actualhand = temp1;
+        return actualhand;
+    }
+
+
+    public static int[] resize (int pairs[], int x)
+    {
+        int temp[] = new int [x];
+
+        for (int y = 0 ; y < x ; y++)
+        {
+            temp [y] = pairs [y];
+        }
+
+        return temp;
+    }
+}
+
+
